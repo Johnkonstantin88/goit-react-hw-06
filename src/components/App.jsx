@@ -5,7 +5,7 @@ import { useContacts } from '../hooks';
 import css from './App.module.css';
 
 const App = () => {
-  const { contacts, filters } = useContacts();
+  const { contacts } = useContacts();
 
   return (
     <>
@@ -19,9 +19,7 @@ const App = () => {
             There are no contacts in your contact list
           </p>
         )}
-        {contacts.length === 0 && filters !== '' && (
-          <p className={css.alterText}>No contacts found</p>
-        )}
+
         <ContactList />
       </div>
     </>

@@ -19,6 +19,9 @@ const ContactList = () => {
       {filteredContacts.map(contact => (
         <Contact key={contact.id} {...contact} />
       ))}
+      {filteredContacts.length === 0 && filters !== '' && (
+        <p className={css.alterText}>No contacts found</p>
+      )}
     </ul>
   );
 };

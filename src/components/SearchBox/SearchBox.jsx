@@ -6,7 +6,7 @@ import css from './SearchBox.module.css';
 
 const SearchBox = () => {
   const dispatch = useDispatch();
-  const { filter } = useContacts();
+  const { filters } = useContacts();
   const searchFieldId = useId();
 
   const changeFilterHandler = e => {
@@ -21,7 +21,7 @@ const SearchBox = () => {
           className={css.input}
           type="text"
           id={searchFieldId}
-          value={filter}
+          value={filters}
           onChange={changeFilterHandler}
         />
       </label>

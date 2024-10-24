@@ -11,3 +11,12 @@
   font-family: 'Comic Sans MS', cursive, sans-serif;
   font-weight: 700;
 }
+
+.alterText {
+  display: flex;
+  justify-content: space-evenly;
+  margin-right: 0;
+  margin-left: 0;
+  font-size: 22px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
