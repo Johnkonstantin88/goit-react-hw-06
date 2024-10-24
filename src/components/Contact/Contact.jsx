@@ -1,6 +1,28 @@
+import { useDispatch } from 'react-redux';
+import { useContacts } from '../../hooks';
+import { deleteContact } from '../../redux/contacts/contactsSlice';
+
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+
 import css from './Contact.module.css';
 
-const Contact = ({ name, number, id, onDelete }) => {
+const Contact = ({ name, number, id }) => {
+  const dispatch = useDispatch();
+  const { contacts } = useContacts();
+
+  const deleteContactHandler = id => {
+    dispatch(deleteContact(id));
+    contacts.find(
+      contact =>
+        contact.id === id &&
+        iziToast.info({
+          title: 'Done',
+          message: `${contact.name} was deleted from your contacts`,
+        })
+    );
+  };
+
   return (
     <li className={css.listItem}>
       <p>
@@ -9,7 +31,7 @@ const Contact = ({ name, number, id, onDelete }) => {
       <button
         className={css.deleteButton}
         type="button"
-        onClick={() => onDelete(id)}
+        onClick={() => deleteContactHandler(id)}
       >
         Delete
       </button>

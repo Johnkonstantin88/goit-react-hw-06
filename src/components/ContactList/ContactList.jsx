@@ -1,11 +1,23 @@
+import { useContacts } from '../../hooks';
 import Contact from '../Contact/Contact';
 import css from './ContactList.module.css';
 
-const ContactList = ({ contacts, onDelete }) => {
+const getFilteredContacts = (contacts, filters) => {
+  const normalizeSearch = filters.toLowerCase();
+  return contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizeSearch)
+  );
+};
+
+const ContactList = () => {
+  const { contacts, filters } = useContacts();
+
+  const filteredContacts = getFilteredContacts(contacts, filters);
+
   return (
     <ul className={css.list}>
-      {contacts.map(contact => (
-        <Contact key={contact.id} {...contact} onDelete={onDelete} />
+      {filteredContacts.map(contact => (
+        <Contact key={contact.id} {...contact} />
       ))}
     </ul>
   );

@@ -1,8 +1,18 @@
+import { useDispatch } from 'react-redux';
 import { useId } from 'react';
+import { useContacts } from '../../hooks';
+import { changeFilter } from '../../redux/contacts/filtersSlice';
 import css from './SearchBox.module.css';
 
-const SearchBox = ({ value, onChange }) => {
+const SearchBox = () => {
+  const dispatch = useDispatch();
+  const { filter } = useContacts();
   const searchFieldId = useId();
+
+  const changeFilterHandler = e => {
+    dispatch(changeFilter(e.target.value));
+  };
+
   return (
     <div>
       <label className={css.label} htmlFor={searchFieldId}>
@@ -11,8 +21,8 @@ const SearchBox = ({ value, onChange }) => {
           className={css.input}
           type="text"
           id={searchFieldId}
-          value={value}
-          onChange={onChange}
+          value={filter}
+          onChange={changeFilterHandler}
         />
       </label>
     </div>

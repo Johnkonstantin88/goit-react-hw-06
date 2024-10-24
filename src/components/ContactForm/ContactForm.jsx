@@ -1,6 +1,9 @@
 import { useId } from 'react';
+import { useContacts } from '../../hooks/useContacts';
+import { useDispatch } from 'react-redux';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { addContact } from '../../redux/contacts/contactsSlice';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
@@ -26,17 +29,28 @@ const ContactSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
   const nameFieldId = useId();
   const numberFieldId = useId();
+  const { contacts } = useContacts();
+  const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
     try {
-      onSubmit(values);
+      const [name, number] = Object.values(values);
+      contacts.some(contact => {
+        if (contact.name.toLowerCase() === name.toLowerCase()) {
+          throw new Error(`Name "${name}" is already used in contacts`);
+        }
+        if (contact.number === number) {
+          throw new Error(`Number ${number} is already saved in contacts`);
+        }
+      });
 
+      dispatch(addContact(values));
       iziToast.success({
-        title: 'Success',
-        message: `${values.name} added in your contacts`,
+        title: 'Congratulations!',
+        message: `${values.name} was added to your contacts`,
       });
 
       resetForm();
